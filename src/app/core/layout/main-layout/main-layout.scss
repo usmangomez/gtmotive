@@ -1,6 +1,10 @@
 .layout {
+  height: 100dvh;
+
   &__main {
     max-width: 1000px;
     margin: 0 auto;
+    padding: 2rem 0;
+    height: calc(100% - 3rem);
   }
 }

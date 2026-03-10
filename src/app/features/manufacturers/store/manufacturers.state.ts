@@ -7,6 +7,7 @@ export interface ManufacturersState {
   currentPage: number;
   loading: boolean;
   error: string | null;
+  hasMore?: boolean;
 }
 
 export const initialManufacturersState: ManufacturersState = {
@@ -16,4 +17,5 @@ export const initialManufacturersState: ManufacturersState = {
   currentPage: 1,
   loading: false,
   error: null,
+  hasMore: true,
 };

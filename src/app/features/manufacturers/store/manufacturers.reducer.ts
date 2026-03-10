@@ -14,9 +14,13 @@ export const manufacturersReducer = createReducer(
 
   on(ManufacturersActions.loadManufacturersSuccess, (state, { manufacturers, total }) => ({
     ...state,
-    manufacturers,
+    manufacturers:
+      state.currentPage === 1
+        ? manufacturers
+        : [...state.manufacturers, ...manufacturers],
     total,
     loading: false,
+    hasMore: total === 100,
   })),
 
   on(ManufacturersActions.loadManufacturersFailure, (state, { error }) => ({

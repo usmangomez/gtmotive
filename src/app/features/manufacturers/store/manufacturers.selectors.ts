@@ -32,3 +32,8 @@ export const selectManufacturersCurrentPage = createSelector(
   selectManufacturersState,
   (state) => state.currentPage,
 );
+
+export const selectManufacturersHasMore = createSelector(
+  selectManufacturersState,
+  (state) => state.hasMore,
+);

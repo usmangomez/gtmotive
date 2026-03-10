@@ -1,1 +1,28 @@
-<p>manufacturer-list works!</p>
+<div class="manufacturer-list">
+  <div class="manufacturer-list__header">
+    <h1>Manufacturers list</h1>
+
+    <app-input [label]="'Search'" [placeholder]="'Search'" [control]="form.controls.search"></app-input>
+  </div>
+
+  <div class="manufacturer-list__content">
+    @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
+      <app-manufacturer-cards [manufacturer]="manufacturer"></app-manufacturer-cards>
+    }
+  </div>
+
+  @let loading = (loading$ | async);
+  @let currentPage = (currentPage$ | async);
+  @if (loading && currentPage === 1) {
+    <div class="manufacturer-list__loading">
+      Loading data...
+    </div>
+  }
+  @if (loading && currentPage! > 1) {
+    <div class="manufacturer-list__loading">
+      Loading more data...
+    </div>
+  }
+
+  <div #scrollAnchor class="manufacturer-list__anchor"></div>
+</div>
