@@ -1,59 +1,82 @@
-# Gtmotive
+# GT Motive — Vehicle Manufacturers Explorer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+Angular 21 application that consumes the [NHTSA Vehicle API](https://vpic.nhtsa.dot.gov/api/) to browse and inspect vehicle manufacturers.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+| Layer         | Technology                          |
+|---------------|-------------------------------------|
+| Framework     | Angular 21 (standalone components)  |
+| Build         | Vite                                |
+| State         | NgRx (Store + Effects)              |
+| UI            | Angular Material 3                  |
+| Testing       | Vitest                              |
+| Styling       | SCSS                                |
 
-```bash
-ng serve
+## Project Structure
+
+```
+src/app/
+├── core/                          # Singleton services & layout shell
+│   ├── layout/
+│   │   ├── header/                # Top navigation bar
+│   │   └── main-layout/          # Shell component (header + router-outlet)
+│   └── services/
+│       └── manufacturers.ts       # HTTP calls to NHTSA API
+│
+├── features/
+│   └── manufacturers/             # Manufacturers feature
+│       ├── models/                # TypeScript interfaces (API contracts)
+│       ├── pages/
+│       │   ├── manufacturer-list/     # Paginated list view
+│       │   └── manufacturer-detail/   # Single manufacturer view
+│       └── store/                 # NgRx state management
+│           ├── manufacturers.actions.ts
+│           ├── manufacturers.state.ts
+│           ├── manufacturers.reducer.ts
+│           ├── manufacturers.selectors.ts
+│           └── manufacturers.effects.ts
+│
+└── environments/
+    └── environments.ts            # API base URL configuration
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Architecture Decisions
 
-## Code scaffolding
+- **Standalone components** — no NgModules; each component declares its own imports.
+- **Lazy-loaded features** — routes and components are loaded on demand via `loadChildren` / `loadComponent`.
+- **Core/Features separation** — `core/` holds app-wide singletons (services, layout). `features/` holds domain-specific code scoped by feature.
+- **NgRx Redux pattern** — unidirectional data flow: components dispatch actions → effects handle side effects (HTTP) → reducer updates state → selectors expose state slices.
+- **Feature-scoped models** — API interfaces live inside the feature that owns them.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Routing
 
-```bash
-ng generate component component-name
+| Path                      | Component            | Loading    |
+|---------------------------|----------------------|------------|
+| `/`                       | → redirects to `/manufacturers` | —  |
+| `/manufacturers`          | ManufacturerList     | Lazy       |
+| `/manufacturers/:id`      | ManufacturerDetail   | Lazy       |
+
+All routes render inside `MainLayout`, which provides the header and content container.
+
+## API
+
+All requests go through the `Manufacturers` service pointing to:
+
+```
+https://vpic.nhtsa.dot.gov/api/vehicles
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+| Method                      | Endpoint                                        |
+|-----------------------------|------------------------------------------------|
+| `getManufacturers(page)`    | `GET /GetAllManufacturers?format=json&page={n}` |
+| `getManufacturerDetail(id)` | `GET /GetManufacturerDetails/{id}?format=json`   |
+
+## Getting Started
 
 ```bash
-ng generate --help
+npm install
+npm start        # dev server at http://localhost:4200
+npm run build    # production build
+npm test         # run unit tests
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
