@@ -19,5 +19,7 @@ export const ManufacturersActions = createActionGroup({
     'Load Manufacturer Detail Model': props<{ id: string }>(),
     'Load Manufacturer Detail Model Success': props<{ model: ModelDetail[] }>(),
     'Load Manufacturer Detail Model Failure': props<{ error: string }>(),
+
+    'Cancel Manufacturer Detail': emptyProps(),
   },
 });

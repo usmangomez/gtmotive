@@ -1,7 +1,8 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ManufacturersActions } from '../../store/manufacturers.actions';
 import {
+  selectManufacturersLoading,
   selectSelectedManufacturer,
   selectSelectedManufacturerModel,
 } from '../../store/manufacturers.selectors';
@@ -17,13 +18,14 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './manufacturer-detail.html',
   styleUrl: './manufacturer-detail.scss',
 })
-export class ManufacturerDetail implements OnInit {
+export class ManufacturerDetail implements OnInit, OnDestroy {
   vehicleId = input<string>();
 
   private readonly store = inject(Store);
 
   public readonly manufacturer$ = this.store.select(selectSelectedManufacturer);
   public readonly model$ = this.store.select(selectSelectedManufacturerModel);
+  public readonly loading$ = this.store.select(selectManufacturersLoading);
 
   ngOnInit() {
     if (this.vehicleId()) {
@@ -32,5 +34,9 @@ export class ManufacturerDetail implements OnInit {
         ManufacturersActions.loadManufacturerDetailModel({ id: this.vehicleId()! }),
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(ManufacturersActions.cancelManufacturerDetail());
   }
 }

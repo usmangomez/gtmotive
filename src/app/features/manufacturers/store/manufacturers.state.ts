@@ -10,7 +10,7 @@ export interface ManufacturersState {
   selectedManufacturerModel: ModelDetail[] | null;
   total: number;
   currentPage: number;
-  loading: boolean;
+  loading: number;
   error: string | null;
   hasMore?: boolean;
 }
@@ -21,7 +21,7 @@ export const initialManufacturersState: ManufacturersState = {
   selectedManufacturerModel: null,
   total: 0,
   currentPage: 1,
-  loading: false,
+  loading: 0,
   error: null,
   hasMore: true,
 };

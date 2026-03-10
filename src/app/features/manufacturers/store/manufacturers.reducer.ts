@@ -7,7 +7,7 @@ export const manufacturersReducer = createReducer(
 
   on(ManufacturersActions.loadManufacturers, (state, { page }) => ({
     ...state,
-    loading: true,
+    loading: state.loading + 1,
     error: null,
     currentPage: page,
   })),
@@ -17,19 +17,19 @@ export const manufacturersReducer = createReducer(
     manufacturers:
       state.currentPage === 1 ? manufacturers : [...state.manufacturers, ...manufacturers],
     total,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
     hasMore: total === 100,
   })),
 
   on(ManufacturersActions.loadManufacturersFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
     error,
   })),
 
   on(ManufacturersActions.loadManufacturerDetail, (state) => ({
     ...state,
-    loading: true,
+    loading: state.loading + 1,
     error: null,
     selectedManufacturer: null,
   })),
@@ -37,18 +37,18 @@ export const manufacturersReducer = createReducer(
   on(ManufacturersActions.loadManufacturerDetailSuccess, (state, { manufacturer }) => ({
     ...state,
     selectedManufacturer: manufacturer,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
   })),
 
   on(ManufacturersActions.loadManufacturerDetailFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
     error,
   })),
 
   on(ManufacturersActions.loadManufacturerDetailModel, (state) => ({
     ...state,
-    loading: true,
+    loading: state.loading + 1,
     error: null,
     selectedManufacturerModel: null,
   })),
@@ -56,12 +56,18 @@ export const manufacturersReducer = createReducer(
   on(ManufacturersActions.loadManufacturerDetailModelSuccess, (state, { model }) => ({
     ...state,
     selectedManufacturerModel: model,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
   })),
 
   on(ManufacturersActions.loadManufacturerDetailModelFailure, (state, { error }) => ({
     ...state,
-    loading: false,
+    loading: state.loading > 0 ? state.loading - 1 : state.loading,
     error,
+  })),
+
+  on(ManufacturersActions.cancelManufacturerDetail, (state) => ({
+    ...state,
+    loading: 0,
+    error: null,
   })),
 );

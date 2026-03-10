@@ -20,7 +20,7 @@ export const selectSelectedManufacturerModel = createSelector(
 
 export const selectManufacturersLoading = createSelector(
   selectManufacturersState,
-  (state) => state.loading,
+  (state) => !!state.loading,
 );
 
 export const selectManufacturersError = createSelector(

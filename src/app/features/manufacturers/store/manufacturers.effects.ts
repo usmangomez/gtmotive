@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap, takeUntil } from 'rxjs';
 import { Manufacturers } from '../../../core/services/manufacturers';
 import { ManufacturersActions } from './manufacturers.actions';
 
@@ -28,11 +28,16 @@ export class ManufacturersEffects {
     ),
   );
 
+  private readonly cancelDetail$ = this.actions$.pipe(
+    ofType(ManufacturersActions.cancelManufacturerDetail),
+  );
+
   loadManufacturerDetail$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ManufacturersActions.loadManufacturerDetail),
       switchMap(({ id }) =>
         this.manufacturersService.getManufacturerDetail(id).pipe(
+          takeUntil(this.cancelDetail$),
           map((response) =>
             ManufacturersActions.loadManufacturerDetailSuccess({
               manufacturer: response.Results[0],
@@ -51,6 +56,7 @@ export class ManufacturersEffects {
       ofType(ManufacturersActions.loadManufacturerDetailModel),
       switchMap(({ id }) =>
         this.manufacturersService.getManufacturerDetailModel(id).pipe(
+          takeUntil(this.cancelDetail$),
           map((response) =>
             ManufacturersActions.loadManufacturerDetailModelSuccess({
               model: response.Results,
