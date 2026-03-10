@@ -7,7 +7,7 @@ export const MANUFACTURERS_ROUTES: Routes = [
       import('./pages/manufacturer-list/manufacturer-list').then((m) => m.ManufacturerList),
   },
   {
-    path: ':id',
+    path: ':vehicleId',
     loadComponent: () =>
       import('./pages/manufacturer-detail/manufacturer-detail').then((m) => m.ManufacturerDetail),
   },

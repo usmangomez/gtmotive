@@ -20,7 +20,7 @@ export class Manufacturers {
     );
   }
 
-  getManufacturerDetail(id: number) {
+  getManufacturerDetail(id: string) {
     return this.http.get<ManufacturerDetailResponse>(
       `${this.apiUrl}/GetManufacturerDetails/${id}?format=json`,
     );

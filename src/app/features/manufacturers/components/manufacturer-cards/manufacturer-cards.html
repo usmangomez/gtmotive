@@ -1,5 +1,7 @@
-<div class="manufacturer-card">
-  <p>{{manufacturer()?.Mfr_Name}}</p>
-  <p>{{manufacturer()?.Mfr_CommonName}}</p>
-  <p>{{manufacturer()?.Country}}</p>
-</div>
+@if (manufacturer()) {
+  <div class="manufacturer-card" (click)="clicked(manufacturer()?.Mfr_ID!)">
+    <p>{{manufacturer()?.Mfr_Name}}</p>
+    <p>{{manufacturer()?.Mfr_CommonName}}</p>
+    <p>{{manufacturer()?.Country}}</p>
+  </div>
+}

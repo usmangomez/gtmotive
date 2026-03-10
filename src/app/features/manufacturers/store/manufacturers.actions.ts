@@ -8,7 +8,7 @@ export const ManufacturersActions = createActionGroup({
     'Load Manufacturers Success': props<{ manufacturers: Manufacturer[]; total: number }>(),
     'Load Manufacturers Failure': props<{ error: string }>(),
 
-    'Load Manufacturer Detail': props<{ id: number }>(),
+    'Load Manufacturer Detail': props<{ id: string }>(),
     'Load Manufacturer Detail Success': props<{ manufacturer: ManufacturerDetail }>(),
     'Load Manufacturer Detail Failure': props<{ error: string }>(),
   },

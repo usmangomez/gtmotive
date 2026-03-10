@@ -7,7 +7,7 @@
 
   <div class="manufacturer-list__content">
     @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
-      <app-manufacturer-cards [manufacturer]="manufacturer"></app-manufacturer-cards>
+      <app-manufacturer-cards [manufacturer]="manufacturer" (clickEvent)="handleClickCard($event)"></app-manufacturer-cards>
     }
   </div>
 

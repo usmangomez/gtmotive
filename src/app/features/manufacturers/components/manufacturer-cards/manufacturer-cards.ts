@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Manufacturer } from '../../models/manufacturer';
 
 @Component({
@@ -8,5 +8,11 @@ import { Manufacturer } from '../../models/manufacturer';
   styleUrl: './manufacturer-cards.scss',
 })
 export class ManufacturerCards {
-  manufacturer = input<Manufacturer | null>(null)
+  manufacturer = input<Manufacturer | null>(null);
+
+  clickEvent = output<number>();
+
+  clicked(manufacturerId: number) {
+    this.clickEvent.emit(manufacturerId);
+  }
 }

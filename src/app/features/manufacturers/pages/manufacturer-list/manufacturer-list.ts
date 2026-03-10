@@ -13,6 +13,7 @@ import { ManufacturerCards } from '../../components/manufacturer-cards/manufactu
 import { Input } from '../../../../shared/components/input/input';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { combineLatest, map, startWith, switchMap, take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manufacturer-list',
@@ -29,6 +30,8 @@ export class ManufacturerList implements OnInit, OnDestroy {
   @ViewChild('scrollAnchor', { static: true }) scrollAnchor!: ElementRef<HTMLDivElement>;
 
   private readonly store = inject(Store);
+  private readonly router = inject(Router);
+
   private observer!: IntersectionObserver;
 
   public readonly form = new FormGroup({ search: new FormControl('') });
@@ -51,7 +54,6 @@ export class ManufacturerList implements OnInit, OnDestroy {
   public readonly loading$ = this.store.select(selectManufacturersLoading);
   public readonly currentPage$ = this.store.select(selectManufacturersCurrentPage);
   public readonly hasMore$ = this.store.select(selectManufacturersHasMore);
-  public readonly total$ = this.store.select(selectManufacturersTotal);
 
   ngOnInit() {
     this.store.dispatch(ManufacturersActions.loadManufacturers({ page: 1 }));
@@ -79,9 +81,13 @@ export class ManufacturerList implements OnInit, OnDestroy {
     combineLatest([this.loading$, this.hasMore$, this.currentPage$])
       .pipe(take(1))
       .subscribe(([loading, hasMore, page]) => {
-        if (!loading && hasMore) {
+        if (!loading && !this.form.controls.search.value && hasMore) {
           this.store.dispatch(ManufacturersActions.loadManufacturers({ page: page + 1 }));
         }
       });
+  }
+
+  handleClickCard(manufacturerId: number) {
+    this.router.navigate(['/manufacturers', manufacturerId]).then();
   }
 }

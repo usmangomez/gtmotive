@@ -1,1 +1,16 @@
-<p>manufacturer-detail works!</p>
+@let manufacturer = manufacturer$ | async;
+<div class="manufacturer-detail">
+  <h1>{{ manufacturer?.Mfr_CommonName }}</h1>
+
+  <section class="manufacturer-detail__vehicles-types">
+    <h2>Vehicles type</h2>
+
+
+  </section>
+
+  <section class="manufacturer-detail__vehicles-models">
+    <h2>Vehicles models</h2>
+
+
+  </section>
+</div>
