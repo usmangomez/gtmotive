@@ -1,22 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
 import { Input } from './input';
 
+@Component({
+  imports: [Input],
+  template: `<app-input [control]="control" label="Test" />`,
+})
+class TestHost {
+  control = new FormControl('');
+}
+
 describe('Input', () => {
-  let component: Input;
-  let fixture: ComponentFixture<Input>;
+  let fixture: ComponentFixture<TestHost>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Input],
+      imports: [TestHost],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Input);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(TestHost);
     await fixture.whenStable();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const inputEl = fixture.nativeElement.querySelector('app-input');
+    expect(inputEl).toBeTruthy();
   });
 });
