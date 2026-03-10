@@ -5,8 +5,7 @@ import {
   selectManufacturers,
   selectManufacturersCurrentPage,
   selectManufacturersHasMore,
-  selectManufacturersLoading,
-  selectManufacturersTotal,
+  selectManufacturersLoading
 } from '../../store/manufacturers.selectors';
 import { AsyncPipe } from '@angular/common';
 import { ManufacturerCards } from '../../components/manufacturer-cards/manufacturer-cards';
@@ -56,7 +55,14 @@ export class ManufacturerList implements OnInit, OnDestroy {
   public readonly hasMore$ = this.store.select(selectManufacturersHasMore);
 
   ngOnInit() {
-    this.store.dispatch(ManufacturersActions.loadManufacturers({ page: 1 }));
+    this.store
+      .select(selectManufacturers)
+      .pipe(take(1))
+      .subscribe((manufacturers) => {
+        if (manufacturers.length === 0) {
+          this.store.dispatch(ManufacturersActions.loadManufacturers({ page: 1 }));
+        }
+      });
     this.setupIntersectionObserver();
   }
 

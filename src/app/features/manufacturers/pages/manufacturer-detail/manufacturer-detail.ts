@@ -1,5 +1,6 @@
 import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { take } from 'rxjs';
 import { ManufacturersActions } from '../../store/manufacturers.actions';
 import {
   selectManufacturersLoading,
@@ -28,12 +29,18 @@ export class ManufacturerDetail implements OnInit, OnDestroy {
   public readonly loading$ = this.store.select(selectManufacturersLoading);
 
   ngOnInit() {
-    if (this.vehicleId()) {
-      this.store.dispatch(ManufacturersActions.loadManufacturerDetail({ id: this.vehicleId()! }));
-      this.store.dispatch(
-        ManufacturersActions.loadManufacturerDetailModel({ id: this.vehicleId()! }),
-      );
-    }
+    const id = this.vehicleId();
+    if (!id) return;
+
+    this.store
+      .select(selectSelectedManufacturer)
+      .pipe(take(1))
+      .subscribe((existing) => {
+        if (!existing || existing.Mfr_ID.toString() !== id) {
+          this.store.dispatch(ManufacturersActions.loadManufacturerDetail({ id }));
+          this.store.dispatch(ManufacturersActions.loadManufacturerDetailModel({ id }));
+        }
+      });
   }
 
   ngOnDestroy() {
