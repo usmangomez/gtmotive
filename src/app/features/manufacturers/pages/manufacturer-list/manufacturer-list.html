@@ -8,12 +8,10 @@
   </div>
 
   <div class="manufacturer-list__content">
-    @if(!loading) {
-      @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
-        <app-manufacturer-cards [manufacturer]="manufacturer" (clickEvent)="handleClickCard($event)"></app-manufacturer-cards>
-      } @empty {
-        <p>No manufacturers found</p>
-      }
+    @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
+      <app-manufacturer-cards [manufacturer]="manufacturer" (clickEvent)="handleClickCard($event)"></app-manufacturer-cards>
+    } @empty {
+      <p>No manufacturers found</p>
     }
   </div>
 
