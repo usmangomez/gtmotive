@@ -22,6 +22,8 @@
       <div class="manufacturer-detail__vehicles-types__content">
         @for (vehicleType of manufacturer?.VehicleTypes; track vehicleType.Name) {
           <app-vehicle-type-card [vehicleType]="vehicleType"></app-vehicle-type-card>
+        } @empty {
+          <p>No vehicle types found</p>
         }
       </div>
     </section>
@@ -32,6 +34,8 @@
       <div class="manufacturer-detail__vehicles-models__content">
         @for (vehicleModel of model; track vehicleModel.Model_ID) {
           <app-vehicle-model-card [vehicleModel]="vehicleModel"></app-vehicle-model-card>
+        } @empty {
+          <p>No models found</p>
         }
       </div>
     </section>

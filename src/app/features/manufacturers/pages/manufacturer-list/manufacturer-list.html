@@ -1,3 +1,5 @@
+@let loading = (loading$ | async);
+@let currentPage = (currentPage$ | async);
 <div class="manufacturer-list">
   <div class="manufacturer-list__header">
     <h1>Manufacturers list</h1>
@@ -6,13 +8,15 @@
   </div>
 
   <div class="manufacturer-list__content">
-    @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
-      <app-manufacturer-cards [manufacturer]="manufacturer" (clickEvent)="handleClickCard($event)"></app-manufacturer-cards>
+    @if(!loading) {
+      @for (manufacturer of manufacturers$ | async; track manufacturer.Mfr_ID) {
+        <app-manufacturer-cards [manufacturer]="manufacturer" (clickEvent)="handleClickCard($event)"></app-manufacturer-cards>
+      } @empty {
+        <p>No manufacturers found</p>
+      }
     }
   </div>
 
-  @let loading = (loading$ | async);
-  @let currentPage = (currentPage$ | async);
   @if (loading && currentPage === 1) {
     <div class="manufacturer-list__loading">
       Loading data...
