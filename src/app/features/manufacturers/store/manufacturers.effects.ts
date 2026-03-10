@@ -45,4 +45,22 @@ export class ManufacturersEffects {
       ),
     ),
   );
+
+  loadManufacturerDetailModel$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ManufacturersActions.loadManufacturerDetailModel),
+      switchMap(({ id }) =>
+        this.manufacturersService.getManufacturerDetailModel(id).pipe(
+          map((response) =>
+            ManufacturersActions.loadManufacturerDetailModelSuccess({
+              model: response.Results,
+            }),
+          ),
+          catchError((error) =>
+            of(ManufacturersActions.loadManufacturerDetailModelFailure({ error: error.message })),
+          ),
+        ),
+      ),
+    ),
+  );
 }

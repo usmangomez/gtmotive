@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   ManufacturerDetailResponse,
   ManufacturerResponse,
+  ModelDetailResponse,
 } from '../../features/manufacturers/models/manufacturer';
 
 @Injectable({
@@ -23,6 +24,12 @@ export class Manufacturers {
   getManufacturerDetail(id: string) {
     return this.http.get<ManufacturerDetailResponse>(
       `${this.apiUrl}/GetManufacturerDetails/${id}?format=json`,
+    );
+  }
+
+  getManufacturerDetailModel(id: string) {
+    return this.http.get<ModelDetailResponse>(
+      `${this.apiUrl}/GetModelsForMakeId/${id}?format=json`,
     );
   }
 }

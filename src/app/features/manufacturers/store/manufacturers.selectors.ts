@@ -13,6 +13,11 @@ export const selectSelectedManufacturer = createSelector(
   (state) => state.selectedManufacturer,
 );
 
+export const selectSelectedManufacturerModel = createSelector(
+  selectManufacturersState,
+  (state) => state.selectedManufacturerModel,
+);
+
 export const selectManufacturersLoading = createSelector(
   selectManufacturersState,
   (state) => state.loading,

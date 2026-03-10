@@ -1,0 +1,37 @@
+.manufacturer-detail {
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  a {
+    display: flex;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  &__vehicles-types {
+    margin-top: 2rem;
+
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  &__vehicles-models {
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+  }
+}

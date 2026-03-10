@@ -1,16 +1,31 @@
 @let manufacturer = manufacturer$ | async;
+@let model = model$ | async;
 <div class="manufacturer-detail">
-  <h1>{{ manufacturer?.Mfr_CommonName }}</h1>
+
+  <div class="manufacturer-detail__header">
+    <a routerLink="./..">
+      <mat-icon>arrow_back</mat-icon>
+    </a>
+    <h1>{{ manufacturer?.Mfr_CommonName }}</h1>
+  </div>
 
   <section class="manufacturer-detail__vehicles-types">
     <h2>Vehicles type</h2>
 
-
+    <div class="manufacturer-detail__vehicles-types__content">
+      @for (vehicleType of manufacturer?.VehicleTypes; track vehicleType.Name) {
+        <app-vehicle-type-card [vehicleType]="vehicleType"></app-vehicle-type-card>
+      }
+    </div>
   </section>
 
   <section class="manufacturer-detail__vehicles-models">
     <h2>Vehicles models</h2>
 
-
+    <div class="manufacturer-detail__vehicles-models__content">
+      @for (vehicleModel of model; track vehicleModel.Make_ID) {
+        <app-vehicle-model-card [vehicleModel]="vehicleModel"></app-vehicle-model-card>
+      }
+    </div>
   </section>
 </div>

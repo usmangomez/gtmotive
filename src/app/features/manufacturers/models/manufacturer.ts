@@ -59,3 +59,17 @@ export interface VehicleType {
   Name: string;
 }
 
+export interface ModelDetailResponse {
+  Count: number;
+  Message: string;
+  SearchCriteria: string;
+  Results: ModelDetail[];
+}
+
+export interface ModelDetail {
+  Make_ID: number;
+  Make_Name: string;
+  Model_ID: number;
+  Model_Name: string;
+}
+
