@@ -1,0 +1,13 @@
+.header {
+  background-color: var(--mat-sys-primary);
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  &__content {
+    max-width: 1000px;
+    margin: 0 auto;
+    flex: 1;
+  }
+}
